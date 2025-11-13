@@ -1,0 +1,178 @@
+# Training Configuration for MobileNetV4 Fish Classification
+# PM5: Model Optimization with AdamW, CosineAnnealingLR, label_smoothing, early_stopping
+
+# Model Configuration
+model:
+  name: "mobilenetv4_conv_medium"
+  num_classes: 12
+  pretrained: true
+  checkpoint_path: null  # Path to pre-trained checkpoint if resuming training
+
+# Data Configuration
+data:
+  train_dir: "/home/nick/Desktop/INFO813 Project/processed/train"
+  val_dir: "/home/nick/Desktop/INFO813 Project/processed/val"
+  test_dir: "/home/nick/Desktop/INFO813 Project/processed/test"
+  batch_size: 32
+  num_workers: 4
+  pin_memory: true
+  image_size: 224
+  
+  # Data augmentation settings
+  augmentation:
+    stage1:
+      resize_size: 256
+      crop_size: 224
+      horizontal_flip_prob: 0.5
+      color_jitter:
+        brightness: 0.2
+        contrast: 0.2
+        saturation: 0.2
+        hue: 0.1
+      random_rotation_degrees: 15
+      random_erasing_prob: 0.1
+      random_erasing_scale: [0.02, 0.2]
+      normalize:
+        mean: [0.485, 0.456, 0.406]
+        std: [0.229, 0.224, 0.225]
+    
+    stage2:
+      resize_size: 256
+      crop_size: 224
+      horizontal_flip_prob: 0.5
+      color_jitter:
+        brightness: 0.3
+        contrast: 0.3
+        saturation: 0.3
+        hue: 0.15
+      random_rotation_degrees: 20
+      random_erasing_prob: 0.2
+      random_erasing_scale: [0.02, 0.3]
+      normalize:
+        mean: [0.485, 0.456, 0.406]
+        std: [0.229, 0.224, 0.225]
+
+# Training Configuration
+training:
+  # Two-stage training
+  stage1:
+    epochs: 10
+    freeze_backbone: true
+    learning_rate: 0.001
+    weight_decay: 0.0001
+    label_smoothing: 0.1
+    
+  stage2:
+    epochs: 30
+    freeze_backbone: false
+    learning_rate: 0.00002  # 2e-5
+    weight_decay: 0.0001
+    label_smoothing: 0.05
+
+# Optimizer Configuration (AdamW)
+optimizer:
+  type: "AdamW"
+  betas: [0.9, 0.999]
+  eps: 1e-8
+  weight_decay: 0.0001
+  amsgrad: false
+
+# Learning Rate Scheduler Configuration (CosineAnnealingLR)
+scheduler:
+  type: "CosineAnnealingLR"
+  T_max: 10  # Will be updated based on stage epochs
+  eta_min: 1e-6
+  last_epoch: -1
+
+# Early Stopping Configuration
+early_stopping:
+  enabled: true
+  patience: 7  # Number of epochs to wait before stopping
+  min_delta: 0.001  # Minimum change to qualify as improvement
+  monitor: "val_accuracy"  # Metric to monitor
+  mode: "max"  # Maximize the monitored metric
+  restore_best_weights: true
+
+# Loss Function Configuration
+loss:
+  type: "CrossEntropyLoss"
+  label_smoothing: 0.1  # Will be updated based on stage
+  reduction: "mean"
+
+# Regularization Techniques
+regularization:
+  dropout_rate: 0.2
+  mixup_alpha: 0.2  # For mixup augmentation
+  cutmix_alpha: 1.0  # For cutmix augmentation
+  use_ema: false  # Exponential Moving Average
+  ema_decay: 0.999
+
+# Logging and Checkpointing
+logging:
+  log_dir: "/home/nick/Desktop/INFO813 Project/logs"
+  experiment_name: "mobilenetv4_fish_classification"
+  log_interval: 10  # Log every N batches
+  save_interval: 5  # Save checkpoint every N epochs
+  save_best_only: true
+  monitor_metric: "val_accuracy"
+  monitor_mode: "max"
+
+# Evaluation Configuration
+evaluation:
+  eval_interval: 1  # Evaluate every N epochs
+  metrics:
+    - "accuracy"
+    - "top_k_accuracy"  # Top-5 accuracy
+    - "precision"
+    - "recall"
+    - "f1_score"
+    - "confusion_matrix"
+  
+  # Class-specific evaluation
+  class_balanced_metrics: true
+  per_class_accuracy: true
+
+# Hardware Configuration
+hardware:
+  device: "auto"  # auto, cuda, cpu
+  mixed_precision: true  # Use automatic mixed precision
+  gradient_accumulation_steps: 1
+  max_grad_norm: 1.0  # Gradient clipping
+
+# Reproducibility
+reproducibility:
+  seed: 42
+  deterministic: false  # May impact performance
+  benchmark: true  # Optimize for fixed input sizes
+
+# Advanced Training Techniques
+advanced:
+  # Learning rate warmup
+  warmup:
+    enabled: true
+    warmup_epochs: 3
+    warmup_start_lr: 1e-6
+    
+  # Gradient checkpointing for memory efficiency
+  gradient_checkpointing: false
+  
+  # Knowledge distillation (if using teacher model)
+  knowledge_distillation:
+    enabled: false
+    teacher_model_path: null
+    temperature: 4.0
+    alpha: 0.7  # Weight for distillation loss
+
+# Data Loading Optimization
+data_loading:
+  prefetch_factor: 2
+  persistent_workers: true
+  drop_last: true  # Drop last incomplete batch
+
+# Model Export Configuration
+export:
+  formats: ["onnx", "torchscript"]
+  quantization:
+    enabled: true
+    method: "dynamic"  # dynamic, static, qat
+    calibration_dataset_size: 1000

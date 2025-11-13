@@ -1,0 +1,66 @@
+Data Quality Check Report
+==================================================
+
+Total images analyzed: 500
+
+1. BLUR DETECTION RESULTS
+------------------------------
+Blurry images found: 148 (29.60%)
+
+Blurry images (blur score < 100.0):
+  - processed/val/Mirror Carp/Mirror Carp (415).jpeg (blur score: 79.49)
+  - processed/test/Black Rohu/Black Rohu (287).jpg (blur score: 6.49)
+  - processed/train/Silver Carp/Silver Carp  (257).jpg (blur score: 80.62)
+  - processed/val/Silver Carp/Silver Carp  (49).jpeg (blur score: 82.15)
+  - processed/train/Silver Carp/Silver Carp  (73).jpeg (blur score: 71.67)
+  - processed/test/Black Rohu/Black Rohu (174).jpg (blur score: 40.93)
+  - processed/val/Mrigal/Mrigal (279).JPG (blur score: 11.95)
+  - processed/train/Mirror Carp/Mirror Carp (124).JPG (blur score: 92.93)
+  - processed/val/Common Carp/Common Carp (446).jpg (blur score: 56.85)
+  - processed/train/Mrigal/Mrigal (340).jpg (blur score: 93.61)
+  - processed/train/Silver Carp/Silver Carp  (57).jpg (blur score: 46.81)
+  - processed/train/Mrigal/Mrigal (246).jpg (blur score: 21.38)
+  - processed/val/Mrigal/Mrigal (341).jpg (blur score: 93.73)
+  - processed/val/Striped Catfish/Striped Catfish (199).jpg (blur score: 99.61)
+  - processed/train/Mirror Carp/Mirror Carp (358).jpg (blur score: 20.98)
+  - processed/val/Rohu/Rohu (287).jpg (blur score: 69.54)
+  - processed/val/Rohu/Rohu (40).jpg (blur score: 51.23)
+  - processed/val/Rohu/Rohu (261).jpg (blur score: 59.25)
+  - processed/train/Mrigal/Mrigal (271).JPG (blur score: 27.03)
+  - processed/train/Nile Tilapia/Nile Tilapia (184).jpg (blur score: 72.51)
+  ... and 128 more
+
+2. GRAYSCALE DETECTION RESULTS
+-----------------------------------
+Grayscale images found: 0 (0.00%)
+
+3. DUPLICATE DETECTION RESULTS
+-----------------------------------
+Duplicate image pairs found: 2
+
+Duplicate image pairs (SSIM >= 0.95, Hash distance <= 5):
+  - processed/train/Grass Carp/Grass Carp (268).jpg
+    processed/train/Grass Carp/Grass Carp (79).jpg (SSIM: 0.995, Hash dist: 0)
+  - processed/train/Common Carp/Common Carp (123).jpg
+    processed/val/Common Carp/Common Carp (497).jpg (SSIM: 1.000, Hash dist: 0)
+
+4. SUMMARY STATISTICS
+-------------------------
+Blur score statistics:
+  Mean: 271.51
+  Std: 299.53
+  Min: 1.89
+  Max: 3730.96
+
+File size statistics:
+  Mean: 1008.8 KB
+  Std: 1069.2 KB
+  Min: 131.7 KB
+  Max: 6472.9 KB
+
+5. RECOMMENDATIONS
+--------------------
+• Consider removing or re-capturing 148 blurry images
+• Remove 2 duplicate image pairs to reduce redundancy
+• Total quality issues found: 150
+• Dataset quality score: 70.0%

@@ -1,0 +1,28 @@
+Image Analysis Statistics
+==================================================
+
+Total images analyzed: 60
+
+Width Statistics:
+  Min: 959 pixels
+  Max: 5184 pixels
+  Mean: 2083.7 pixels
+  Std: 1018.5 pixels
+
+Height Statistics:
+  Min: 1125 pixels
+  Max: 4511 pixels
+  Mean: 2276.4 pixels
+  Std: 705.5 pixels
+
+Aspect Ratio Statistics:
+  Min: 0.75
+  Max: 2.00
+  Mean: 0.90
+  Std: 0.28
+
+File Size Statistics:
+  Min: 212.5 KB
+  Max: 6286.7 KB
+  Mean: 1053.9 KB
+  Std: 1097.8 KB
