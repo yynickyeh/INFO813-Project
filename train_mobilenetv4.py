@@ -25,7 +25,7 @@ from pathlib import Path
 import warnings
 warnings.filterwarnings('ignore')
 
-# Import our custom transforms
+# #任务PM3：构建 MobileNetV4 模型 工具/方法：使用 timm.create_model('mobilenetv4_100', pretrained=True, num_classes=12) 交付成果：train_mobilenetv4.py
 from transforms import get_transforms, STAGE1_TRANSFORMS_CONFIG, STAGE2_TRANSFORMS_CONFIG
 
 # Set up logging

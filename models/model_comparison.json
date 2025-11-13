@@ -1,0 +1,21 @@
+{
+  "formats": {
+    "ONNX": {
+      "file_size_mb": 32.13956928253174,
+      "description": "Standard ONNX format for cross-platform deployment"
+    },
+    "TFLite Dynamic": {
+      "file_size_mb": 16.06978464126587,
+      "description": "TFLite with dynamic range quantization (estimated)"
+    },
+    "TFLite INT8": {
+      "file_size_mb": 8.034892320632935,
+      "description": "TFLite with INT8 quantization (estimated)"
+    }
+  },
+  "compression_ratios": {
+    "dynamic_vs_onnx": 50.0,
+    "int8_vs_onnx": 75.0,
+    "int8_vs_dynamic": 50.0
+  }
+}
